@@ -17,3 +17,8 @@ List tags of a file or a directory:
 ```bash
 list_tags.sh file/directory
 ```
+
+List files or directories of a tag:
+```bash
+list_items.sh tag
+```
