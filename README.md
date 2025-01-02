@@ -12,3 +12,8 @@ Remove one or more tags from a file or a directory:
 ```bash
 remove_tag.sh file/directory tag[s]
 ```
+
+List tags of a file or a directory:
+```bash
+list_tags.sh file/directory
+```
