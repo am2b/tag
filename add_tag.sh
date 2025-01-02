@@ -43,7 +43,10 @@ add() {
     fi
     shift
 
-    local new_tags=("$@")
+    local new_tags=()
+    for t in "${@}"; do
+        new_tags+=($(sed 's/ /_/g' <<< "${t}"))
+    done
 
     # 获取现有标签
     local existing_tags=()
@@ -52,13 +55,15 @@ add() {
     fi
 
     # 合并标签,去重
-    local all_tags=("${existing_tags[@]}" "${new_tags[@]}")
-    local unique_tags=($(echo "${all_tags[@]}" | tr ' ' '\n' | sort -u))
+    local all_tags=()
+    local unique_tags=()
+    all_tags=("${existing_tags[@]}" "${new_tags[@]}")
+    unique_tags=($(echo "${all_tags[@]}" | tr ' ' '\n' | sort -u))
 
     # grep没有搜索到的话会返回1
-    grep -v "^$item:" "$TAGS" > "$TAGS.tmp"
+    grep -v "^$item:" "$TAGS" >"$TAGS.tmp"
     mv "$TAGS.tmp" "$TAGS"
-    echo "$item:${unique_tags[*]}" >> "$TAGS"
+    echo "$item:${unique_tags[*]}" >>"$TAGS"
 }
 
 main() {

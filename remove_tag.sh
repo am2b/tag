@@ -45,6 +45,7 @@ remove() {
 
     declare -A remove_tags_map
     for e in "${@}"; do
+        e=$(sed 's/ /_/g' <<< "${e}")
         remove_tags_map["$e"]="value"
     done
 
