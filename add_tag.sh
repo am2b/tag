@@ -36,7 +36,6 @@ process_opts() {
     done
 }
 
-# 为文件添加标签
 add() {
     local item=$(realpath "${1}")
     if [[ ! -e "${item}" ]]; then
@@ -56,7 +55,7 @@ add() {
     local all_tags=("${existing_tags[@]}" "${new_tags[@]}")
     local unique_tags=($(echo "${all_tags[@]}" | tr ' ' '\n' | sort -u))
 
-    # 更新数据库
+    # grep没有搜索到的话会返回1
     grep -v "^$item:" "$TAGS" > "$TAGS.tmp"
     mv "$TAGS.tmp" "$TAGS"
     echo "$item:${unique_tags[*]}" >> "$TAGS"
