@@ -45,7 +45,7 @@ add() {
 
     local new_tags=()
     for t in "${@}"; do
-        new_tags+=($(sed 's/ /_/g' <<< "${t}"))
+        new_tags+=($(sed 's/ /_/g' <<<"${t}"))
     done
 
     # 获取现有标签
@@ -60,10 +60,8 @@ add() {
     all_tags=("${existing_tags[@]}" "${new_tags[@]}")
     unique_tags=($(echo "${all_tags[@]}" | tr ' ' '\n' | sort -u))
 
-    # grep没有搜索到的话会返回1
-    grep -v "^$item:" "$TAGS" >"$TAGS.tmp"
-    mv "$TAGS.tmp" "$TAGS"
-    echo "$item:${unique_tags[*]}" >>"$TAGS"
+    sed -i "s|^$item:.*||" "$TAGS" && echo "$item:${unique_tags[*]}" >> "$TAGS"
+    sed -i '/^$/d' "$TAGS"
 }
 
 main() {
